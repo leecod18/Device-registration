@@ -1,0 +1,26 @@
+spring:
+  application:
+         name: Device-registration
+  datasource:
+    url: jdbc:mysql://localhost:2208/vehicle_data
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8181/realms/master/protocol/openid-connect/certs
+keycloak:
+  realm: master
+  auth-server-url: http://localhost:8181/auth
+  ssl-required: external
+  resource: vehicle-spring
+  bearer-only: true
+  credentials:
+    secret: 2joLh91xHZZiXeDWKBwWVQnHFqeHsgci
+
+
+
