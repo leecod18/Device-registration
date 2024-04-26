@@ -1,8 +1,7 @@
 package com.example.Deviceregistration.service.impl;
-import com.example.Deviceregistration.dto.UserRequest;
 import com.example.Deviceregistration.entity.VehicleInfo;
 import com.example.Deviceregistration.reponsitory.VehicleInfoReponsitory;
-import com.example.Deviceregistration.service.AddUserService;
+import com.example.Deviceregistration.service.DeviceService;
 import jakarta.ws.rs.core.Response;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
@@ -18,7 +17,12 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class DefaulAddUserService implements AddUserService {
+public class DefaulDeviceService implements DeviceService {
+    private static final String YEAR = "year";
+    private static final String MODEL = "model";
+    private static final String VIN = "vin";
+
+
     private final VehicleInfoReponsitory reponsitory;
 
     @Value("${keycloak.auth-server-url}")
@@ -33,13 +37,13 @@ public class DefaulAddUserService implements AddUserService {
     @Value("${keycloak.credentials.secret}")
     private String clientSecret;
 
-    public DefaulAddUserService(VehicleInfoReponsitory reponsitory) {
+    public DefaulDeviceService(VehicleInfoReponsitory reponsitory) {
         this.reponsitory = reponsitory;
     }
 
 
     @Override
-    public ResponseEntity<String> createKeycloakUser(UserRequest userRequest) {
+    public String register() {
        Keycloak keycloak = KeycloakBuilder.builder()
                .serverUrl(keycloakServerUrl)
                .realm(realm)
@@ -47,7 +51,8 @@ public class DefaulAddUserService implements AddUserService {
                .clientId(clientId)
                .username("admin")
                .password("admin")
-               .clientSecret(clientSecret).build();
+//               .clientSecret(clientSecret)
+               .build();
 
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
@@ -55,20 +60,21 @@ public class DefaulAddUserService implements AddUserService {
         // Tạo một UserRepresentation
         UserRepresentation userRepresentation  = new UserRepresentation();
         userRepresentation.setEnabled(true);
-        userRepresentation.setUsername(userRequest.getUserName());
-        userRepresentation.setEmail(userRequest.getEmail());
-        userRepresentation.setFirstName(userRequest.getFirstName());
-        userRepresentation.setLastName(userRequest.getLastName());
+        userRepresentation.setUsername("vin");
+        userRepresentation.singleAttribute(YEAR, "2022")
+                .singleAttribute(MODEL, "Tesla")
+                .singleAttribute(VIN, "vin");
+
 
         Response  response = usersResource.create(userRepresentation);
         if(response.getStatus()==201){
-//            String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+//          String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
            VehicleInfo vehicleInfo = new VehicleInfo();
-            String userId = CreatedResponseUtil.getCreatedId(response);
-            Long userLong = Long.parseLong(userId);
-            vehicleInfo.setVin(userLong);
+          String userId = CreatedResponseUtil.getCreatedId(response);
+            vehicleInfo.setVid(userId);
+            vehicleInfo.setVin("vin");
             reponsitory.save(vehicleInfo);
-            return new ResponseEntity<>("Created User on Keycloak", HttpStatus.CREATED);
+            return "Created User on Keycloak";
         }else{
              throw new RuntimeException("Failed to create User on Keycloak");
         }

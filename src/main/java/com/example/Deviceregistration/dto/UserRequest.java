@@ -1,6 +1,11 @@
 package com.example.Deviceregistration.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+
 public class UserRequest {
+
     private String userName;
     private String email;
     private String firstName;

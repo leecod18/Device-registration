@@ -1,7 +1,12 @@
 package com.example.Deviceregistration.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+
 
 public class User {
+    private String Id;
     private String userName;
     private String email;
     private String firstName;
