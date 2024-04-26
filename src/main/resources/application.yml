@@ -19,7 +19,7 @@ keycloak:
   resource: admin-cli
   credentials:
     secret: kOmejrrDAR7zOnmX8xeMmq1MASFc8dM9
-  ssl-required: external
+
 
 
 
