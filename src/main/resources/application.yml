@@ -15,10 +15,8 @@ spring:
           jwk-set-uri: http://localhost:8181/realms/master/protocol/openid-connect/certs
 keycloak:
   realm: master
-  auth-server-url: http://localhost:8181/auth
-  ssl-required: external
-  resource: vehicle-spring
-  bearer-only: true
+  auth-server-url: http://localhost:8181
+  resource: admin-cli
   credentials:
     secret: 2joLh91xHZZiXeDWKBwWVQnHFqeHsgci
 

@@ -4,6 +4,8 @@ import com.example.Deviceregistration.entity.VehicleInfo;
 import com.example.Deviceregistration.reponsitory.VehicleInfoReponsitory;
 import com.example.Deviceregistration.service.AddUserService;
 import jakarta.ws.rs.core.Response;
+import org.keycloak.OAuth2Constants;
+import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -41,7 +43,10 @@ public class DefaulAddUserService implements AddUserService {
        Keycloak keycloak = KeycloakBuilder.builder()
                .serverUrl(keycloakServerUrl)
                .realm(realm)
+               .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                .clientId(clientId)
+               .username("admin")
+               .password("admin")
                .clientSecret(clientSecret).build();
 
         RealmResource realmResource = keycloak.realm(realm);
@@ -57,8 +62,9 @@ public class DefaulAddUserService implements AddUserService {
 
         Response  response = usersResource.create(userRepresentation);
         if(response.getStatus()==201){
-            String  userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
-            VehicleInfo vehicleInfo = new VehicleInfo();
+//            String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+           VehicleInfo vehicleInfo = new VehicleInfo();
+            String userId = CreatedResponseUtil.getCreatedId(response);
             Long userLong = Long.parseLong(userId);
             vehicleInfo.setVin(userLong);
             reponsitory.save(vehicleInfo);
