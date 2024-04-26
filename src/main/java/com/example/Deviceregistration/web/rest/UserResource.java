@@ -17,7 +17,6 @@ public class UserResource {
     public UserResource(AddUserService addUserService) {
         this.addUserService = addUserService;
     }
-
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody UserRequest userRequest){
         return addUserService.createKeycloakUser(userRequest);

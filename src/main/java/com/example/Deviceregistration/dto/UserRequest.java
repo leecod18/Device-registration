@@ -3,7 +3,7 @@ package com.example.Deviceregistration.dto;
 public class UserRequest {
     private String userName;
     private String email;
-    private String fistName;
+    private String firstName;
     private String lastName;
 
     public String getUserName() {
@@ -22,12 +22,12 @@ public class UserRequest {
         this.email = email;
     }
 
-    public String getFistName() {
-        return fistName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFistName(String fistName) {
-        this.fistName = fistName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {

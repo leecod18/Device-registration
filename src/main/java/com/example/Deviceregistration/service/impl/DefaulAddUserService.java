@@ -43,7 +43,7 @@ public class DefaulAddUserService implements AddUserService {
        Keycloak keycloak = KeycloakBuilder.builder()
                .serverUrl(keycloakServerUrl)
                .realm(realm)
-               .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
+               .grantType(OAuth2Constants.PASSWORD)
                .clientId(clientId)
                .username("admin")
                .password("admin")
@@ -57,7 +57,7 @@ public class DefaulAddUserService implements AddUserService {
         userRepresentation.setEnabled(true);
         userRepresentation.setUsername(userRequest.getUserName());
         userRepresentation.setEmail(userRequest.getEmail());
-        userRepresentation.setFirstName(userRequest.getFistName());
+        userRepresentation.setFirstName(userRequest.getFirstName());
         userRepresentation.setLastName(userRequest.getLastName());
 
         Response  response = usersResource.create(userRepresentation);
