@@ -20,6 +20,13 @@ keycloak:
   credentials:
     secret: kOmejrrDAR7zOnmX8xeMmq1MASFc8dM9
 
+app:
+  keycloak-attribute:
+      user-name: buon_Ngu_Qua
+      model: Toyota
+      vin: t1
+      year: 2002
+
 
 
 

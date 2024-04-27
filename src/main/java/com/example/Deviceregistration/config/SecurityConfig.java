@@ -18,7 +18,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
     return httpSecurity
             .authorizeHttpRequests(
-                        reg -> reg.requestMatchers(HttpMethod.POST,"/users/create")
+                        reg -> reg.requestMatchers(HttpMethod.POST,"/device")
                                 .permitAll()
             )
             .oauth2ResourceServer(conf -> conf.jwt(Customizer.withDefaults())).build();

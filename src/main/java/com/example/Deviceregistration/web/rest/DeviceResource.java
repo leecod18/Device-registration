@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/device")
 public class DeviceResource {
@@ -20,7 +22,7 @@ public class DeviceResource {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String registerDevice(){
+    public Map<String, Object> registerDevice(){
         return deviceService.register();
     }
 }
