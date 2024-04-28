@@ -1,11 +1,12 @@
 package com.example.Deviceregistration.service.impl;
 import com.example.Deviceregistration.config.KeycloakConfig;
 import com.example.Deviceregistration.config.KeycloakConfigAttributes;
+import com.example.Deviceregistration.dto.response.VehicleInfoResponse;
 import com.example.Deviceregistration.entity.VehicleInfo;
+import com.example.Deviceregistration.exception.UnauthorizedException;
 import com.example.Deviceregistration.reponsitory.VehicleInfoReponsitory;
 import com.example.Deviceregistration.service.DeviceService;
 import jakarta.ws.rs.core.Response;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -13,10 +14,6 @@ import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
-
 
 @Service
 @RequiredArgsConstructor
@@ -39,32 +36,37 @@ public class DefaulDeviceService implements DeviceService {
 
 
     @Override
-    public Map<String,Object> register() {
+    public VehicleInfoResponse register() {
         RealmResource realmResource = keycloakConfig.adminKeycloak().realm(keycloakConfigAttributes.getRealm());
         UsersResource usersResource = realmResource.users();
 
         // Tạo một UserRepresentation
-        UserRepresentation userRepresentation  = new UserRepresentation();
+        UserRepresentation userRepresentation = new UserRepresentation();
         userRepresentation.setEnabled(true);
         userRepresentation.setUsername(userName);
         userRepresentation.singleAttribute(YEAR, year)
                 .singleAttribute(MODEL, model)
                 .singleAttribute(VIN, vin);
 
-        Response  response = usersResource.create(userRepresentation);
-        if(response.getStatus()==201){
-//          String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+        Response response = usersResource.create(userRepresentation);
+        if (response.getStatus() == 201) {
+//          String userId = VehicleInfoResponse.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
             VehicleInfo vehicleInfo = new VehicleInfo();
             String userId = CreatedResponseUtil.getCreatedId(response);
             vehicleInfo.setVid(userId);
             vehicleInfo.setVin(vin);
             reponsitory.save(vehicleInfo);
 
-            Map<String,Object> map = Map.of();
-            map.get(userRepresentation.getUserProfileMetadata());
-            return map;
-        }else{
-             throw new RuntimeException("Failed to create User on Keycloak");
+            VehicleInfoResponse vehicleInfoResponse = new VehicleInfoResponse();
+            vehicleInfoResponse.setVid(vehicleInfo.getVid());
+            vehicleInfoResponse.setUserName(userName);
+            vehicleInfoResponse.setYear(year);
+            vehicleInfoResponse.setModel(model);
+            vehicleInfoResponse.setVin(vin);
+            return vehicleInfoResponse;
+        }  else  {
+            throw new RuntimeException("Failes to created User");
         }
+
     }
 }

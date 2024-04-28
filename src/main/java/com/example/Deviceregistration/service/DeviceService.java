@@ -1,7 +1,8 @@
 package com.example.Deviceregistration.service;
 
-import java.util.Map;
+import com.example.Deviceregistration.dto.response.VehicleInfoResponse;
+
 
 public interface DeviceService {
-   Map<String,Object> register();
+  VehicleInfoResponse register();
 }

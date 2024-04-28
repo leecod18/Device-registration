@@ -19,13 +19,12 @@ keycloak:
   resource: admin-cli
   credentials:
     secret: kOmejrrDAR7zOnmX8xeMmq1MASFc8dM9
-
 app:
   keycloak-attribute:
-      user-name: buon_Ngu_Qua
-      model: Toyota
-      vin: t1
-      year: 2002
+      user-name: test_lan14
+      model: Honda
+      vin: ngyr4r3rdyu44vcxv35fgd
+      year: 2015
 
 
 
