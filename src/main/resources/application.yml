@@ -21,9 +21,8 @@ keycloak:
     secret: kOmejrrDAR7zOnmX8xeMmq1MASFc8dM9
 app:
   keycloak-attribute:
-      user-name: test_lan14
       model: Honda
-      vin: ngyr4r3rdyu44vcxv35fgd
+      vin: xekhongxay
       year: 2015
 
 

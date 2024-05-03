@@ -8,9 +8,6 @@ import lombok.Data;
 public class VehicleInfoResponse {
     private String vid;
     private String vin;
-    private String userName;
-    private String year;
-    private String model;
 
     public VehicleInfoResponse() {
 

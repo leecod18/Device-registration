@@ -4,6 +4,7 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class KeycloakConfig {
 
     private  final KeycloakConfigAttributes attributes;
+    @Bean
     public Keycloak adminKeycloak(){
         Keycloak keycloak = KeycloakBuilder.builder()
                 .serverUrl(attributes.getKeycloakServerUrl())
